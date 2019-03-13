@@ -49,6 +49,23 @@ public class AlienController {
     	String s[] = txtWord.getText().trim().toLowerCase().split("\\s+");
     	txtWord.clear();
     	
+    	int contatore = 0;
+    	for (int i=0; i<s[0].length(); i++)
+    		if (s[0].charAt(i) == '?')
+    			contatore++;
+    			
+    	if (contatore == 1 && s.length == 1) {
+    		if (dizionario.translateWord(s[0]) != null)
+    			txtResult.appendText(s[0]+" "+dizionario.translateWord(s[0])+"\n");
+    		else
+    			txtResult.appendText(s[0]+" non è presente nel dizionario.\n");
+    		
+    		return;
+    	} else if (contatore > 1) {
+			txtResult.appendText("E' ammesso al massimo un punto di domanda.\n");
+			return;
+		}
+    		
     	for (int i=0; i<s.length; i++)
     		if (!s[i].matches("[a-z]+")) {
     			txtResult.appendText("Sono ammessi solo caratteri alfabetici.\n");
@@ -60,7 +77,7 @@ public class AlienController {
     			txtResult.appendText(s[0]+" "+dizionario.translateWord(s[0])+"\n");
     		else
     			txtResult.appendText(s[0]+" non è presente nel dizionario.\n");
-    	} else if (s.length == 2){
+    	} else if (s.length == 2) {
     		dizionario.addWord(s[0], s[1]);
     		txtResult.appendText("Parola aggiunta al dizionario: "+s[0]+" "+s[1]+"\n");
     	}

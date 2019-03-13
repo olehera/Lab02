@@ -28,19 +28,20 @@ public class Word {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		Word other = (Word)obj;
+		String s = other.getAlienWord();
+		String st = s;
+		
+		if (s.compareTo(this.alienWord) == 0)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Word other = (Word) obj;
-		if (alienWord == null) {
-			if (other.alienWord != null)
-				return false;
-		} else if (!alienWord.equals(other.alienWord))
-			return false;
-		return true;
+		else if (s.contains("?")) {
+		Character alfa[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+		for(int i=0; i<alfa.length; i++) {
+			if (s.replace('?', alfa[i]).compareTo(this.alienWord) == 0)
+				return true; 
+			else
+				s = st;
+		}}
+		return false;
 	}
-
 }
