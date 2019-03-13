@@ -4,8 +4,6 @@ package it.polito.tdp.alien;
  * Sample Skeleton for 'Alien.fxml' Controller Class
  */
 
-
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,6 +14,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class AlienController {
+	
+	private AlienDictionary dizionario;
+	
+	public AlienController() {
+		dizionario = new AlienDictionary();
+	}
 	
     @FXML
     private ResourceBundle resources;
@@ -40,16 +44,33 @@ public class AlienController {
     	
     }
   
-    
     @FXML
     void doTranslate(ActionEvent event) {
-    	    	
+    	String s[] = txtWord.getText().trim().toLowerCase().split("\\s+");
+    	txtWord.clear();
+    	
+    	for (int i=0; i<s.length; i++)
+    		if (!s[i].matches("[a-z]+")) {
+    			txtResult.appendText("Sono ammessi solo caratteri alfabetici.\n");
+    			return;
+    		}
+    	
+    	if (s.length == 1) {
+    		if (dizionario.translateWord(s[0]) != null)
+    			txtResult.appendText(s[0]+" "+dizionario.translateWord(s[0])+"\n");
+    		else
+    			txtResult.appendText(s[0]+" non è presente nel dizionario.\n");
+    	} else if (s.length == 2){
+    		dizionario.addWord(s[0], s[1]);
+    		txtResult.appendText("Parola aggiunta al dizionario: "+s[0]+" "+s[1]+"\n");
+    	}
+    		  	
     }
-    
     
     @FXML
     void doReset(ActionEvent event) {
-
+    	txtResult.clear();
+    	txtWord.clear();
     }
     
 }
